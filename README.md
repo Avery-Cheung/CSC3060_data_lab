@@ -85,7 +85,6 @@ The test suite includes:
 - **60 total tests** across 5 function suites
 - Basic functionality tests
 - Edge cases (INT32_MAX, INT32_MIN, overflow)
-- Mathematical properties (commutative, associative)
 - Bit manipulation scenarios
 
 ## Assignment Rules
