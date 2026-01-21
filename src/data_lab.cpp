@@ -114,7 +114,8 @@ int32_t add(int32_t a, int32_t b) {
 }
 
 int32_t subtract(int32_t a, int32_t b) {
-    return a;
+
+    return add(a, add(~b, 1)); //a-b = a+(-b); -b = ~b + 1 flip & add 1, 
 }
 
 int32_t multiply(int32_t a, int32_t b) {
