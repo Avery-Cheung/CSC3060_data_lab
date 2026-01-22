@@ -119,7 +119,20 @@ int32_t subtract(int32_t a, int32_t b) {
 }
 
 int32_t multiply(int32_t a, int32_t b) {
-    return a * b;
+    uint32_t ua = static_cast<uint32_t>(a);
+    uint32_t ub = static_cast<uint32_t>(b);
+    uint32_t output = 0; 
+    
+    while(ub > 0) {
+        if(ub & 1) { 
+            output = static_cast<uint32_t>(
+                add( static_cast<int32_t>(output), static_cast<int32_t>(ua) )
+            ); 
+        }
+        ua <<= 1; 
+        ub >>= 1; 
+    }//like multiply in vertical format. a stays still and b is seperated. 
+    return static_cast<int32_t>(output); 
 }
 
 int32_t divide(int32_t a, int32_t b) {
