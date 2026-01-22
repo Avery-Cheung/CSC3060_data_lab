@@ -136,7 +136,27 @@ int32_t multiply(int32_t a, int32_t b) {
 }
 
 int32_t divide(int32_t a, int32_t b) {
-    return a / b;
+    uint32_t ua = static_cast<uint32_t>(a);
+    uint32_t ub = static_cast<uint32_t>(b);
+    uint32_t gd = ub; //gd = greatest divisor
+    uint32_t bias = 1; 
+    uint32_t q = 0; //quotient
+
+    while(ua >= ub){
+
+        while((gd <<= 1) <= ua) {//find the greatest divisor
+            gd <<= 1; //left shit once
+            bias <<= 1;
+        }
+
+        q = static_cast<uint32_t>( add(
+            static_cast<int32_t>(q), 
+            static_cast<int32_t>(bias)) 
+            ); //cum q
+
+        ua = static_cast<uint32_t>( subtract(static_cast<int32_t> (ua), static_cast<int32_t> (gd)) );//update divided ua
+    }
+    return static_cast<int32_t>(q); 
 }
 
 int32_t modulo(int32_t a, int32_t b) {
