@@ -123,7 +123,7 @@ int32_t multiply(int32_t a, int32_t b) {
     uint32_t ub = static_cast<uint32_t>(b);
     uint32_t output = 0; 
     
-    while(ub > 0) {
+    while(ub & 0xFFFFFFFF) {
         if(ub & 1) { 
             output = static_cast<uint32_t>(
                 add( static_cast<int32_t>(output), static_cast<int32_t>(ua) )
@@ -161,8 +161,8 @@ int32_t divide(int32_t a, int32_t b) {
     uint32_t bias = 1; 
     uint32_t q = 0; //quotient
 
-    while(ua >= ub){
-
+    while(!(static_cast<uint32_t>(subtract(static_cast<int32_t>(ua), static_cast<int32_t>(ub))) >> 31)){ //if ua >= ub,dif = sub(ua,ub) >= 0, so (dif >> 31) = 0, no overwelling
+        
         gd = ub; 
         bias = 1; 
 
@@ -177,6 +177,7 @@ int32_t divide(int32_t a, int32_t b) {
             ); //cum q
 
         ua = static_cast<uint32_t>( subtract(static_cast<int32_t> (ua), static_cast<int32_t> (gd)) );//update divided ua
+
     }
 
     if(sign & 1) {return static_cast<int32_t>(subtract(0, q)); }//return with sign
@@ -188,7 +189,7 @@ int32_t modulo(int32_t a, int32_t b) {
         multiply(
             divide(a, b), b
         )
-    ); //a/b = q, modulo = a - (q * b)
+    ); //a/b = q, modul = a - (q * b)
 }
 
 }  // namespace data_lab
