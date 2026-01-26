@@ -166,7 +166,7 @@ int32_t divide(int32_t a, int32_t b) {
         gd = ub; 
         bias = 1; 
 
-        while((gd << 1) <= ua) {//find the greatest divisor
+        while(!(static_cast<uint32_t>(subtract(static_cast<int32_t>(ua), static_cast<int32_t>(gd << 1))) >> 31)) {//simulate line 164 to imply >=, find the greatest divisor
             gd <<= 1; //left shit once
             bias <<= 1; 
         }
