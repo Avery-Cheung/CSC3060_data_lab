@@ -136,17 +136,39 @@ int32_t multiply(int32_t a, int32_t b) {
 }
 
 int32_t divide(int32_t a, int32_t b) {
-    uint32_t ua = static_cast<uint32_t>(a);
-    uint32_t ub = static_cast<uint32_t>(b);
+    uint32_t ua; 
+    uint32_t ub; 
+
+    //absolute a&b
+    if((a>>31) & 1) {
+        ua = static_cast<uint32_t>(subtract(0, a));
+        
+    } else {
+        ua = static_cast<uint32_t>(a);
+    }
+    if((b>>31) & 1) {
+        ub = static_cast<uint32_t>(subtract(0, b));
+        
+    } else {
+        ub = static_cast<uint32_t>(b);
+    }
+    
+    //store original sign
+    uint32_t sign = 0; 
+    if( ( (a^b) >> 31) & 1 ) {sign = 1; }
+
     uint32_t gd = ub; //gd = greatest divisor
     uint32_t bias = 1; 
     uint32_t q = 0; //quotient
 
     while(ua >= ub){
 
-        while((gd <<= 1) <= ua) {//find the greatest divisor
+        gd = ub; 
+        bias = 1; 
+
+        while((gd << 1) <= ua) {//find the greatest divisor
             gd <<= 1; //left shit once
-            bias <<= 1;
+            bias <<= 1; 
         }
 
         q = static_cast<uint32_t>( add(
@@ -156,6 +178,8 @@ int32_t divide(int32_t a, int32_t b) {
 
         ua = static_cast<uint32_t>( subtract(static_cast<int32_t> (ua), static_cast<int32_t> (gd)) );//update divided ua
     }
+
+    if(sign & 1) {return static_cast<int32_t>(subtract(0, q)); }//return with sign
     return static_cast<int32_t>(q); 
 }
 
